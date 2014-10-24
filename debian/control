@@ -1,0 +1,12 @@
+Source: ros-hydro-strands-executive-msgs
+Section: misc
+Priority: extra
+Maintainer: Nick Hawes <n.a.hawes@cs.bham.ac.uk>
+Build-Depends: debhelper (>= 9.0.0), ros-hydro-actionlib, ros-hydro-actionlib-msgs, ros-hydro-catkin, ros-hydro-geometry-msgs, ros-hydro-message-generation, ros-hydro-mongodb-store-msgs, ros-hydro-rospy, ros-hydro-std-msgs
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-hydro-strands-executive-msgs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-hydro-actionlib, ros-hydro-actionlib-msgs, ros-hydro-geometry-msgs, ros-hydro-message-runtime, ros-hydro-mongodb-store-msgs, ros-hydro-std-msgs
+Description: Messages used to interact with the STRANDS executive framework.
