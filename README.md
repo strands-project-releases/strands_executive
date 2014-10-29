@@ -1,3 +1,27 @@
+## strands_executive (indigo) - 0.0.4-0
+
+The packages in the `strands_executive` repository were released into the `indigo` distro by running `/usr/bin/bloom-release --rosdistro indigo --track indigo strands_executive` on `Wed, 29 Oct 2014 21:16:09 -0000`
+
+These packages were released:
+- `scheduler`
+- `scipoptsuite`
+- `strands_executive_msgs`
+
+Version of package(s) in repository `strands_executive`:
+- upstream repository: https://github.com/strands-project/strands_executive.git
+- release repository: https://github.com/strands-project-releases/strands_executive.git
+- rosdistro version: `0.0.3-0`
+- old version: `0.0.3-0`
+- new version: `0.0.4-0`
+
+Versions of tools used:
+- bloom version: `0.5.12`
+- catkin_pkg version: `0.2.6`
+- rosdep version: `0.10.32`
+- rosdistro version: `0.3.6`
+- vcstools version: `0.1.35`
+
+
 ## strands_executive (indigo) - 0.0.3-0
 
 The packages in the `strands_executive` repository were released into the `indigo` distro by running `/usr/bin/bloom-release --rosdistro indigo --track indigo strands_executive --edit` on `Wed, 29 Oct 2014 12:45:24 -0000`
