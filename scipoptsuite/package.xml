@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>scipoptsuite</name>
-  <version>0.0.1</version>
+  <version>0.0.3</version>
   <description>This installs version 3.0.2 of SCIP optimisation suite.</description>
 
 
@@ -16,12 +16,10 @@
 
 
   <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>libreadline</build_depend>
   <build_depend>zlib</build_depend>
   <build_depend>libgmp</build_depend>
   <build_depend>libncurses-dev</build_depend>
   <run_depend>libgmp</run_depend>
-  <run_depend>libreadline</run_depend>
   <run_depend>zlib</run_depend>
   <run_depend>libncurses-dev</run_depend>
 
