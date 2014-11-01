@@ -2,6 +2,9 @@
 Changelog for package scipoptsuite
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.0.5 (2014-11-01)
+------------------
+
 0.0.4 (2014-10-29)
 ------------------
 * Fixing library type for OS X.
