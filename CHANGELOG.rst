@@ -3,6 +3,12 @@ Changelog for package strands_executive_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
+0.0.6 (2014-11-06)
+------------------
+* Added tests for scheduler.
+* Pushed duration service argument through C++ side.
+* Contributors: Nick Hawes
+
 0.0.5 (2014-11-01)
 ------------------
 
