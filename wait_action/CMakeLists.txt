@@ -1,24 +1,22 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(task_executor)
+project(wait_action)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS  
+find_package(catkin REQUIRED COMPONENTS
+  actionlib
+  actionlib_msgs
   rospy
-  strands_executive_msgs
-  message_generation
-  actionlib_msgs actionlib
 )
-
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
 
-## Uncomment this if the package has a setup.py. This macro ensures
-## modules and global scripts declared therein get installed
-## See http://ros.org/doc/api/catkin/html/user_guide/setup_dot_py.html
+# Uncomment this if the package has a setup.py. This macro ensures
+# modules and global scripts declared therein get installed
+# See http://ros.org/doc/api/catkin/html/user_guide/setup_dot_py.html
 catkin_python_setup()
 
 ################################################
@@ -48,10 +46,8 @@ catkin_python_setup()
 ## Generate messages in the 'msg' folder
 # add_message_files(
 #   FILES
-#   TestExecutionAction.msg         TestExecutionFeedback.msg
-#   TestExecutionActionFeedback.msg TestExecutionGoal.msg
-#   TestExecutionActionGoal.msg     TestExecutionResult.msg
-#   TestExecutionActionResult.msg
+#   Message1.msg
+#   Message2.msg
 # )
 
 ## Generate services in the 'srv' folder
@@ -64,13 +60,12 @@ catkin_python_setup()
 # Generate actions in the 'action' folder
 add_action_files(
   FILES
-  TestExecution.action
+  Wait.action
 )
 
 # Generate added messages and services with any dependencies listed here
 generate_messages(
   DEPENDENCIES
-  geometry_msgs
   actionlib_msgs
 )
 
@@ -85,8 +80,8 @@ generate_messages(
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES task_executor
-#  CATKIN_DEPENDS actionlib rospy
+#  LIBRARIES wait_action
+#  CATKIN_DEPENDS actionlib actionlib_msgs rospy
 #  DEPENDS system_lib
 )
 
@@ -101,6 +96,22 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
+## Declare a cpp library
+# add_library(wait_action
+#   src/${PROJECT_NAME}/wait_action.cpp
+# )
+
+## Declare a cpp executable
+# add_executable(wait_action_node src/wait_action_node.cpp)
+
+## Add cmake target dependencies of the executable/library
+## as an example, message headers may need to be generated before nodes
+# add_dependencies(wait_action_node wait_action_generate_messages_cpp)
+
+## Specify libraries to link a library or executable target against
+# target_link_libraries(wait_action_node
+#   ${catkin_LIBRARIES}
+# )
 
 #############
 ## Install ##
@@ -113,19 +124,36 @@ install(DIRECTORY scripts/
         DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
         USE_SOURCE_PERMISSIONS)
 
-# Mark other files for installation (e.g. launch and bag files, etc.)
-install(
-  DIRECTORY launch/
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-)
+## Mark executables and/or libraries for installation
+# install(TARGETS wait_action wait_action_node
+#   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+# )
+
+## Mark cpp header files for installation
+# install(DIRECTORY include/${PROJECT_NAME}/
+#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+#   FILES_MATCHING PATTERN "*.h"
+#   PATTERN ".svn" EXCLUDE
+# )
+
+## Mark other files for installation (e.g. launch and bag files, etc.)
+# install(FILES
+#   # myfile1
+#   # myfile2
+#   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+# )
 
 #############
 ## Testing ##
 #############
 
-if (CATKIN_ENABLE_TESTING)
-  find_package(catkin REQUIRED COMPONENTS rostest)
-  add_rostest(tests/fifo_tester.test)
-endif()
+## Add gtest based cpp test target and link libraries
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_wait_action.cpp)
+# if(TARGET ${PROJECT_NAME}-test)
+#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
+# endif()
 
-
+## Add folders to be run by python nosetests
+# catkin_add_nosetests(test)
