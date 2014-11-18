@@ -3,6 +3,9 @@ Changelog for package scheduler
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
+0.0.11 (2014-11-18)
+-------------------
+
 0.0.10 (2014-11-12)
 -------------------
 * Added back libscheduler install target.
