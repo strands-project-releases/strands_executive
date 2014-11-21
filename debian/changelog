@@ -1,0 +1,82 @@
+ros-hydro-sim-clock (0.0.14-0precise) precise; urgency=high
+
+
+
+ -- Nick Hawes <n.a.hawes@cs.bham.ac.uk>  Fri, 21 Nov 2014 00:00:00 -0000
+
+ros-hydro-sim-clock (0.0.13-0precise) precise; urgency=high
+
+
+
+ -- Nick Hawes <n.a.hawes@cs.bham.ac.uk>  Fri, 21 Nov 2014 00:00:00 -0000
+
+ros-hydro-sim-clock (0.0.12-0precise) precise; urgency=high
+
+
+
+ -- Nick Hawes <n.a.hawes@cs.bham.ac.uk>  Thu, 20 Nov 2014 00:00:00 -0000
+
+ros-hydro-sim-clock (0.0.11-0precise) precise; urgency=high
+
+
+
+ -- Nick Hawes <n.a.hawes@cs.bham.ac.uk>  Tue, 18 Nov 2014 00:00:00 -0000
+
+ros-hydro-sim-clock (0.0.10-0precise) precise; urgency=high
+
+
+
+ -- Nick Hawes <n.a.hawes@cs.bham.ac.uk>  Wed, 12 Nov 2014 00:00:00 -0000
+
+ros-hydro-sim-clock (0.0.9-0precise) precise; urgency=high
+
+  * Corrected setup.py
+  * Contributors: Nick Hawes
+
+ -- Nick Hawes <n.a.hawes@cs.bham.ac.uk>  Wed, 12 Nov 2014 00:00:00 -0000
+
+ros-hydro-sim-clock (0.0.8-0precise) precise; urgency=high
+
+  * Updated install targets.
+  * Copied in sim_clock and wait_node without history
+  * Contributors: Nick Hawes
+
+ -- Nick Hawes <n.a.hawes@cs.bham.ac.uk>  Wed, 12 Nov 2014 00:00:00 -0000
+
+ros-hydro-sim-clock (0.0.7-0precise) precise; urgency=high
+
+
+
+ -- Nick Hawes <n.a.hawes@cs.bham.ac.uk>  Fri, 07 Nov 2014 00:00:00 -0000
+
+ros-hydro-sim-clock (0.0.6-0precise) precise; urgency=high
+
+
+
+ -- Nick Hawes <n.a.hawes@cs.bham.ac.uk>  Thu, 06 Nov 2014 00:00:00 -0000
+
+ros-hydro-sim-clock (0.0.5-0precise) precise; urgency=high
+
+
+
+ -- Nick Hawes <n.a.hawes@cs.bham.ac.uk>  Sat, 01 Nov 2014 00:00:00 -0000
+
+ros-hydro-sim-clock (0.0.4-0precise) precise; urgency=high
+
+
+
+ -- Nick Hawes <n.a.hawes@cs.bham.ac.uk>  Wed, 29 Oct 2014 21:12:00 -0000
+
+ros-hydro-sim-clock (0.0.3-0precise) precise; urgency=high
+
+
+
+ -- Nick Hawes <n.a.hawes@cs.bham.ac.uk>  Wed, 29 Oct 2014 10:43:00 -0000
+
+ros-hydro-sim-clock (0.0.1-0precise) precise; urgency=high
+
+
+
+ -- Nick Hawes <n.a.hawes@cs.bham.ac.uk>  Fri, 24 Oct 2014 00:00:00 -0000
+
+
