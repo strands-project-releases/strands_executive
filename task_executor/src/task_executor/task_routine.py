@@ -82,10 +82,10 @@ class DailyRoutine(object):
     def __init__(self, daily_start, daily_end):
         super(DailyRoutine, self).__init__()
 
-        if not daily_start.tzinfo:
+        if daily_start.tzinfo is None:
             raise RoutineException('Start time must have timezone set')
 
-        if not daily_end.tzinfo:
+        if daily_end.tzinfo is None:
             raise RoutineException('End times must have timezone set')
 
         self.daily_start = daily_start
@@ -102,9 +102,9 @@ class DailyRoutine(object):
 
     def repeat_every_delta(self, tasks, delta=timedelta(hours=1), times=1, start_time=None, duration=None):
 
-        if not start_time:
+        if start_time is None:
             start_time = self.daily_start
-        if not duration:
+        if duration is None:
             duration = self.routine_duration
 
         # this window is moved forward throughout the repeat
@@ -185,10 +185,10 @@ class DailyRoutineRunner(object):
         super(DailyRoutineRunner, self).__init__()
        
 
-        if not daily_start.tzinfo:
+        if daily_start.tzinfo is None:
             raise RoutineException('Start time must have timezone set')
 
-        if not daily_end.tzinfo:
+        if daily_end.tzinfo is None:
             raise RoutineException('End times must have timezone set')
         
         self.daily_start = daily_start
@@ -213,10 +213,10 @@ class DailyRoutineRunner(object):
         rospy.loginfo('Current day starts at %s' % self.current_routine_start)
         rospy.loginfo('Current day ends at %s' % self.current_routine_end)
 
-        if not self.current_routine_start.tzinfo:
+        if self.current_routine_start.tzinfo is None:
             raise RoutineException()
 
-        if not self.current_routine_end.tzinfo:
+        if self.current_routine_end.tzinfo is None:
             raise RoutineException()
 
         # the tasks which need to be performed every day, tuples of form (daily_start, daily_end, task)
@@ -261,7 +261,7 @@ class DailyRoutineRunner(object):
 
         return (day_today in self.days_off) or (date_today in self.dates_off)
 
-    def _tasks_allowed_fn(self):        
+    def _tasks_allowed_fn(self, task):        
         return True
 
     def _start_and_end_day(self):
@@ -448,12 +448,20 @@ class DailyRoutineRunner(object):
 
 
     def _schedule_tasks(self, tasks):
-        rospy.loginfo('Sending %s tasks to the scheduler' % (len(tasks)))
+
         if len(tasks) > 0:
-            if not self.day_off() and self.tasks_allowed():
-                self.add_tasks_srv(tasks)
+
+            allowed_tasks = [t for t in tasks if self.tasks_allowed(t)]
+    
+            if len(allowed_tasks) != len(tasks):
+                rospy.loginfo('Provided function prevented %s of %s tasks being send to the scheduler' % (len(tasks) - len(allowed_tasks), len(tasks)))
+
+            if not self.day_off():
+                rospy.loginfo('Sending %s tasks to the scheduler' % (len(allowed_tasks)))
+                self.add_tasks_srv(allowed_tasks)
             else:
-                rospy.loginfo('Provided function prevented tasks being send to the scheduler')
+                rospy.loginfo('Taking the day off')
+            
 
     def _instantiate_for_day(self, start_of_day, daily_start, daily_duration, task):
         """ 
