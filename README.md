@@ -1,3 +1,30 @@
+## strands_executive (indigo) - 0.0.16-0
+
+The packages in the `strands_executive` repository were released into the `indigo` distro by running `/usr/bin/bloom-release strands_executive -t indigo -r indigo` on `Wed, 17 Dec 2014 16:34:49 -0000`
+
+These packages were released:
+- `scheduler`
+- `scipoptsuite`
+- `sim_clock`
+- `strands_executive_msgs`
+- `task_executor`
+- `wait_action`
+
+Version of package(s) in repository `strands_executive`:
+- upstream repository: https://github.com/strands-project/strands_executive.git
+- release repository: https://github.com/strands-project-releases/strands_executive.git
+- rosdistro version: `0.0.6-0`
+- old version: `0.0.6-0`
+- new version: `0.0.16-0`
+
+Versions of tools used:
+- bloom version: `0.5.14`
+- catkin_pkg version: `0.2.6`
+- rosdep version: `0.10.33`
+- rosdistro version: `0.3.6`
+- vcstools version: `0.1.35`
+
+
 ## strands_executive (hydro) - 0.0.16-0
 
 The packages in the `strands_executive` repository were released into the `hydro` distro by running `/usr/bin/bloom-release --non-interactive -t hydro -r hydro strands_executive` on `Wed, 26 Nov 2014 10:19:39 -0000`
