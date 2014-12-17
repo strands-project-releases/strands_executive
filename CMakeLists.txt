@@ -109,6 +109,9 @@ include_directories(
 # all install targets should use catkin DESTINATION variables
 # See http://ros.org/doc/api/catkin/html/adv_user_guide/variables.html
 
+install(DIRECTORY scripts/
+        DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+        USE_SOURCE_PERMISSIONS)
 
 # Mark other files for installation (e.g. launch and bag files, etc.)
 install(
@@ -124,10 +127,5 @@ if (CATKIN_ENABLE_TESTING)
   find_package(catkin REQUIRED COMPONENTS rostest)
   add_rostest(tests/fifo_tester.test)
 endif()
-
-
-# if (CATKIN_ENABLE_TESTING)
-#   add_rostest(tests/fifo_tester.test)
-# endif()
 
 
