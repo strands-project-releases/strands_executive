@@ -97,9 +97,22 @@ class ScheduledTaskExecutor(AbstractTaskExecutor):
 
         # wait until the demanded task has been taken off for execution, otherwise we run into problems with get_schedulable_tasks
         # cancellation should block until cancelled 
-        # while self.execution_schedule.get_current_task() is not None and not rospy.is_shutdown():
-        #     rospy.sleep(1)
-        #     rospy.loginfo('Waiting for previous task to finish')
+        wait_count = 0
+        # a similar theshold is used in sm_base_executor to wait for termination of active task
+        wait_threshold = 31
+        while self.execution_schedule.get_current_task() is not None and wait_count < wait_threshold and not rospy.is_shutdown():
+            rospy.sleep(1)
+            rospy.loginfo('Waiting for previous task to finish')
+            wait_count += 1
+
+        # if it's still not None then we got bored of waiting
+        if self.execution_schedule.get_current_task() is not None:
+            rospy.logwarn('Previous task did not terminate nicely. Everything from here on in could be dicey.')
+
+            self.execution_schedule.current_task != None
+
+
+
 
         # try to schedule them back in 
         self.execution_schedule.add_new_tasks([demanded_task])
@@ -122,10 +135,6 @@ class ScheduledTaskExecutor(AbstractTaskExecutor):
                 rospy.loginfo('Was NOT able to reinstate tasks after demand')
 
 
-
-    def get_duration(self, start, end):
-        return 1.0
-
     def get_duration_matrix(self, tasks):
         """
         Creates the matrix of durations between waypoints needed as input to the scheuler.
@@ -140,7 +149,7 @@ class ScheduledTaskExecutor(AbstractTaskExecutor):
         for start in start_nodes:
             durations[start] = dict()
             for end in end_nodes:
-                durations[start][end] = self.get_duration(start, end)
+                durations[start][end] = self.get_navigation_duration(start, end)
 
 
         # now populate the DurationMatrix object
@@ -161,22 +170,22 @@ class ScheduledTaskExecutor(AbstractTaskExecutor):
         Calls scheduler. Reorders the list of tasks in execution order with their execution times set. 
         
         """
-        resp = self.schedule_srv(tasks, earliest_start, current_id)
+        resp = self.schedule_srv(tasks, earliest_start, current_id, self.get_duration_matrix(tasks))
 
-        rospy.loginfo(resp)
+        # rospy.loginfo(resp)
 
         if len(resp.task_order) > 0:
 
             # add start times to a dictionary for fast lookup
             task_times = {}
             for (task_id, start_time) in zip(resp.task_order, resp.execution_times):
-                print task_id, start_time
+                # print task_id, start_time
                 task_times[task_id] = start_time
 
             # set start times inside of tasks
             for task in tasks:
                 # add min_window back on to starting times
-                print task.task_id, task_times[task.task_id] 
+                # print task.task_id, task_times[task.task_id] 
                 task.execution_time = task_times[task.task_id] 
 
                 # taking out as rescheduling demanded tasks have an issue here I think
