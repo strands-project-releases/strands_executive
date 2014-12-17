@@ -2,6 +2,72 @@
 Changelog for package task_executor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.0.16 (2014-11-26)
+-------------------
+* increasing timeout for nav
+* Edited task allowed function to check task details.
+* More none checking changes.
+* Use `is None` instead of `not`.
+  There's a reason it has been invented. This (and my next PR) probably fix the "local timezone doesn't work anymore" thing.
+* Contributors: Bruno Lacerda, Lucas Beyer, Nick Hawes
+
+0.0.15 (2014-11-23)
+-------------------
+* Added sanity checking to task routine.
+* Handle case where action server for task does not exist
+* Contributors: Nick Hawes
+
+0.0.14 (2014-11-21)
+-------------------
+* Merge pull request `#113 <https://github.com/strands-project/strands_executive/issues/113>`_ from hawesie/hydro-release
+  Changes to demanded tasks and failure cases.
+* Changes to how on demand tasks are handled.
+  The code that waited for a cancelled task had been commented out, leading to demanded tasks being ignored if something was currently executing. This addresses `#108 <https://github.com/strands-project/strands_executive/issues/108>`_.
+* Added run dependency on wait_action.
+  Fixes `#105 <https://github.com/strands-project/strands_executive/issues/105>`_.
+  Conflicts:
+  task_executor/package.xml
+* Added locking to client end of expected time service call.
+  This is for `#108 <https://github.com/strands-project/strands_executive/issues/108>`_.
+* Contributors: Nick Hawes
+
+0.0.13 (2014-11-21)
+-------------------
+* More robust handling of failure cases.
+* Contributors: Nick Hawes
+
+0.0.12 (2014-11-20)
+-------------------
+* Added bounds to repeat_every_delta method.
+  Also cleaned up scheduled and executor output.
+* Contributors: Nick Hawes
+
+0.0.11 (2014-11-18)
+-------------------
+* Fixed bug with day start and end.
+* Contributors: Nick Hawes
+
+0.0.10 (2014-11-12)
+-------------------
+
+0.0.9 (2014-11-12)
+------------------
+
+0.0.8 (2014-11-12)
+------------------
+* Fixing up bugs in routine
+* Added wait node back in.
+* Updating task routine to be more flexible wrt window start and end times.
+* Updated scheduled task executor with distance matrix parts and removed MDP depdendencies in sm base executor which I had previous forgotten.
+* Contributors: Nick Hawes
+
+0.0.7 (2014-11-07)
+------------------
+* Moving scripts to the install target rather than setup.py and the latter doesn't install them under the package name.
+  Conflicts:
+  task_executor/CMakeLists.txt
+* Contributors: Nick Hawes
+
 0.0.6 (2014-11-06)
 ------------------
 * Updated and tested FIFO executor. Removed MDP depedency from base executor.

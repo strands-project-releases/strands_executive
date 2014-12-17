@@ -8,8 +8,8 @@ import actionlib
 from actionlib_msgs.msg import GoalStatus
 from geometry_msgs.msg import Pose, Point, Quaternion
 from mongodb_store.message_store import MessageStoreProxy
-#from topological_navigation.msg import GotoNodeAction, GotoNodeGoal
-from strands_executive_msgs.msg import ExecutePolicyAction, ExecutePolicyGoal
+from topological_navigation.msg import GotoNodeAction, GotoNodeGoal
+# from strands_executive_msgs.msg import ExecutePolicyAction, ExecutePolicyGoal
 from std_srvs.srv import Empty, EmptyResponse
 from std_msgs.msg import String
 from task_executor.base_executor import BaseTaskExecutor
@@ -245,13 +245,16 @@ class AbstractTaskExecutor(BaseTaskExecutor):
 
                 with nav_concurrence:
                     # where we want to go
-                    nav_goal = ExecutePolicyGoal(task_type=ExecutePolicyGoal.GOTO_WAYPOINT, target_id=task.start_node_id, time_of_day='all_day')
+                    # nav_goal = ExecutePolicyGoal(task_type=ExecutePolicyGoal.GOTO_WAYPOINT, target_id=task.start_node_id, time_of_day='all_day')
+                    nav_goal = GotoNodeGoal(target = task.start_node_id)
                     # let nav run for three times the length it usually takes before terminating
                     monitor_duration = self.expected_navigation_duration(task) * 3
 
                     smach.Concurrence.add('MONITORED',
-                                            SimpleActionState('mdp_plan_exec/execute_policy',
-                                                ExecutePolicyAction,
+                                            # SimpleActionState('mdp_plan_exec/execute_policy',
+                                                # ExecutePolicyAction,
+                                                SimpleActionState('topological_navigation',
+                                                GotoNodeAction,
                                                 goal=nav_goal))
                     smach.Concurrence.add('MONITORING', TimerState(duration=monitor_duration))
 
@@ -259,32 +262,38 @@ class AbstractTaskExecutor(BaseTaskExecutor):
 
             # actual task action
             if task.action != '':
-                (action_string, goal_string) = self.get_task_types(task.action)
-                action_clz = dc_util.load_class(dc_util.type_to_class_string(action_string))
-                goal_clz = dc_util.load_class(dc_util.type_to_class_string(goal_string))
+                try:
+                    (action_string, goal_string) = self.get_task_types(task.action)
+                    action_clz = dc_util.load_class(dc_util.type_to_class_string(action_string))
+                    goal_clz = dc_util.load_class(dc_util.type_to_class_string(goal_string))
 
-                argument_list = self.get_arguments(task.arguments)
-                goal = goal_clz(*argument_list)         
+                    argument_list = self.get_arguments(task.arguments)
+                    goal = goal_clz(*argument_list)         
 
-                # create a concurrence which monitors execution time along with doing the execution
-                action_concurrence = smach.Concurrence(outcomes=['succeeded', 'preempted', 'aborted'],
-                                        default_outcome='aborted',
-                                        outcome_cb=self.outcome_cb,
-                                        child_termination_cb=concurrence_child_term_cb)
+                    # create a concurrence which monitors execution time along with doing the execution
+                    action_concurrence = smach.Concurrence(outcomes=['succeeded', 'preempted', 'aborted'],
+                                            default_outcome='aborted',
+                                            outcome_cb=self.outcome_cb,
+                                            child_termination_cb=concurrence_child_term_cb)
 
-                # register callback for logging
-                action_concurrence.register_start_cb(self.action_start_cb)
-                action_concurrence.register_termination_cb(self.action_termination_cb)
-                action_concurrence.userdata.task = task
+                    # register callback for logging
+                    action_concurrence.register_start_cb(self.action_start_cb)
+                    action_concurrence.register_termination_cb(self.action_termination_cb)
+                    action_concurrence.userdata.task = task
 
-                with action_concurrence:
-                    smach.Concurrence.add('MONITORED', SimpleActionState(task.action, action_clz, goal=goal))
-                    wiggle_room = rospy.Duration(5)
-                    smach.Concurrence.add('MONITORING', TimerState(duration=(task.max_duration+wiggle_room)))
+                    with action_concurrence:
+                        smach.Concurrence.add('MONITORED', SimpleActionState(task.action, action_clz, goal=goal))
+                        wiggle_room = rospy.Duration(5)
+                        smach.Concurrence.add('MONITORING', TimerState(duration=(task.max_duration+wiggle_room)))
 
-                smach.StateMachine.add('TASK_EXECUTION',
-                                action_concurrence,
-                                transitions={'preempted':'TASK_CANCELLED', 'aborted':'TASK_FAILED', 'succeeded':'TASK_SUCCEEDED'})
+                    smach.StateMachine.add('TASK_EXECUTION',
+                                    action_concurrence,
+                                    transitions={'preempted':'TASK_CANCELLED', 'aborted':'TASK_FAILED', 'succeeded':'TASK_SUCCEEDED'})
+
+                except Exception, e:
+                    rospy.logwarn('Caught exception when creating the task to execute: %s' % e)
+                    self.task_failed(task)
+                    return 
                                 
         self.task_sm.set_initial_state(['TASK_INITIALISATION'])
 
