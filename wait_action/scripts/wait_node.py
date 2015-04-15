@@ -10,9 +10,10 @@ from strands_executive_msgs.abstract_task_server import AbstractTaskServer
 
 
 class WaitServer(AbstractTaskServer):
-    def __init__(self, interruptible=False, name='wait_action'):
+    def __init__(self, interruptible=True, name='wait_action'):
         super(WaitServer, self).__init__(name, action_type=WaitAction,
                                          interruptible=interruptible)
+        self.maximise_duration_delta = rospy.Duration(rospy.get_param('~maximise_duration_delta', 0))
 
     def end_wait(self, req):
 
@@ -25,7 +26,12 @@ class WaitServer(AbstractTaskServer):
     def create(self, req):
         t = super(WaitServer, self).create(req)
         task_utils.add_time_argument(t, rospy.Time())
-        task_utils.add_duration_argument(t, t.max_duration)
+        if self.maximise_duration_delta > rospy.Duration(0):
+            d = (t.end_before - t.start_after) - self.maximise_duration_delta
+            task_utils.add_duration_argument(t, d)
+            t.max_duration = d
+        else:
+            task_utils.add_duration_argument(t, t.max_duration)
         return t
 
     def execute(self, goal):
@@ -78,7 +84,7 @@ if __name__ == '__main__':
 
     rospy.init_node("wait_node")
 
-    interruptible = rospy.get_param("~interruptible", False)
+    interruptible = rospy.get_param("~interruptible", True)
     # wait for simulated time to kick in as rospy.get_rostime() is 0 until first clock message received
     while not rospy.is_shutdown() and rospy.get_rostime().secs == 0:
         pass
