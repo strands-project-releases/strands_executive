@@ -3,6 +3,9 @@ Changelog for package scheduler
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
+0.0.22 (2015-04-21)
+-------------------
+
 0.0.21 (2015-04-15)
 -------------------
 * change of my email in the scheduler
