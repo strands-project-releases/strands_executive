@@ -1,0 +1,12 @@
+Source: ros-indigo-scipoptsuite
+Section: misc
+Priority: extra
+Maintainer: Nick Hawes <n.a.hawes@cs.bham.ac.uk>
+Build-Depends: debhelper (>= 9.0.0), libgmp-dev, libncurses5-dev, ros-indigo-catkin, zlib1g-dev
+Homepage: http://scip.zib.de
+Standards-Version: 3.9.2
+
+Package: ros-indigo-scipoptsuite
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libgmp-dev, libncurses5-dev, zlib1g-dev
+Description: This installs version 3.0.2 of SCIP optimisation suite.
