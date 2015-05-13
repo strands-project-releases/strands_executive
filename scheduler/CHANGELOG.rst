@@ -3,6 +3,12 @@ Changelog for package scheduler
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
+0.0.26 (2015-05-13)
+-------------------
+* remove a file which doesnt belong here
+* script to get time durations between waypoints
+* Contributors: Lenka
+
 0.0.25 (2015-05-10)
 -------------------
 
