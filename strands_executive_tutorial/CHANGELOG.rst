@@ -2,6 +2,9 @@
 Changelog for package strands_executive_tutorial
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.1.2 (2015-08-26)
+------------------
+
 0.1.1 (2015-08-26)
 ------------------
 * Fixing install statements so directories are installed not contents
