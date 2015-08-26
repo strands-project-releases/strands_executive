@@ -3,6 +3,9 @@ Changelog for package scheduler
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
+0.1.1 (2015-08-26)
+------------------
+
 0.0.26 (2015-05-13)
 -------------------
 * remove a file which doesnt belong here
