@@ -2,6 +2,11 @@
 Changelog for package task_executor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.1.1 (2015-08-26)
+------------------
+* Fixing install statements so directories are installed not contents
+* Contributors: Nick Hawes
+
 0.0.26 (2015-05-13)
 -------------------
 * Fixing the bug with queue/list of unscheduled tasks
