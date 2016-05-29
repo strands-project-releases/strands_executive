@@ -30,6 +30,8 @@ if __name__ == '__main__':
 
     max_duration = rospy.Duration(int(sys.argv[2]))
     wait_task = Task(action='wait_action',start_node_id=sys.argv[1], max_duration=max_duration)
+    wait_task.start_after = rospy.get_rostime() 
+    wait_task.end_before = wait_task.start_after + max_duration + max_duration
     task_utils.add_time_argument(wait_task, rospy.Time())
     task_utils.add_duration_argument(wait_task, max_duration)
     
@@ -42,5 +44,5 @@ if __name__ == '__main__':
     set_execution_status(True)
 
     # now let's stop execution while it's going on
-    rospy.sleep(int(sys.argv[2])/2)
-    set_execution_status(False)
+    # rospy.sleep(int(sys.argv[2])/2)
+    # set_execution_status(False)
