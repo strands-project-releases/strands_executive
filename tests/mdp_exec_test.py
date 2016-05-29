@@ -8,7 +8,7 @@ from strands_navigation_msgs.msg import *
 import sys
 
 def get_services():
-    # get services necessary to do the jon
+    # get services necessary to do the job
     add_tasks_srv_name = '/task_executor/add_tasks'
     set_exe_stat_srv_name = '/task_executor/set_execution_status'
     rospy.loginfo("Waiting for task_executor service...")
@@ -20,8 +20,13 @@ def get_services():
     return add_tasks_srv, set_execution_status
 
 
-def create_wait_task(node, secs=rospy.Duration(10)):
+def create_wait_task(node, secs=rospy.Duration(1), start_after=None, window_size=rospy.Duration(3600)):
+    if start_after is None:
+        start_after = rospy.get_rostime()
+
     wait_task = Task(action='wait_action',start_node_id=node, end_node_id=node, max_duration=secs)
+    wait_task.start_after = start_after
+    wait_task.end_before = wait_task.start_after + window_size
     task_utils.add_time_argument(wait_task, rospy.Time())
     task_utils.add_duration_argument(wait_task, secs)
     return wait_task
@@ -32,10 +37,15 @@ if __name__ == '__main__':
     # get services to call into execution framework
     add_task, set_execution_status = get_services()
 
-    nodes = ['WayPoint1', 'WayPoint2', 'ChargingPoint']    
+    node_count = 10
+
+    nodes = ['WayPoint%s' % node for node in range(1, node_count + 1)]
     tasks = map(create_wait_task, nodes)
 
-    # wait_task = Task(action='',start_node_id=sys.argv[1], max_duration=max_duration)
+    # Add a time-critical task, i.e. one with a zero-sized window
+    tasks.append(create_wait_task('ChargingPoint', 
+            start_after=rospy.get_rostime() + rospy.Duration(160),
+            window_size=rospy.Duration(0)))
 
     task_id = add_task(tasks)
     
