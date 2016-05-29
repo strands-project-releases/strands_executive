@@ -54,6 +54,10 @@ The `wait_duration` argument is self explanatory. The `wait_until` argument is s
 Now we have an action server we'd like to execute, we can write a task to have its execution managed by the executive framework. To create a task, first create an instance of the `Task` message type. Examples are given in Python, as the helper functions currently only exist for Python, but C++ is also possible (and C++ helpers will be added if someone asks for them in the future).
 
 ```python
+#!/usr/bin/env python
+
+import rospy
+
 from strands_executive_msgs.msg import Task
 task = Task()
 ```
@@ -75,6 +79,8 @@ task.max_duration = rospy.Duration(max_wait_minutes)
 As our action server requires arguments (i.e. wait_until or wait_duration), we must add these to the task too. Arguments must be added **in the order they are defined in your action message**. Arguments are added to the task using the helper functions from [strands_executive_msgs.task_utils](http://strands-project.github.io/strands_executive/strands_executive_msgs/html/namespacestrands__executive__msgs_1_1task__utils.html). For our wait_action, this means we must add a value for wait_until then a value for wait_duration (as this is the order defined in the action definition included above). The following code specifies an action that waits for 10 seconds. 
 
 ```python
+from strands_executive_msgs import task_utils
+
 task_utils.add_time_argument(task, rospy.Time())
 task_utils.add_duration_argument(task, rospy.Duration(10))
 ```
@@ -92,6 +98,8 @@ roslaunch strands_executive_tutorial tutorial_dependencies.launch
 Second, we must tell the execution system that it can start executing task. This is done using the `SetExecutionStatus` service which can be used to pause and resume execution at runtime. The following provides functions which return the correct ROS service, after waiting for it to exist.
 
 ```python
+from strands_executive_msgs.srv import AddTasks, DemandTask, SetExecutionStatus
+
 def get_service(service_name, service_type):    
     rospy.loginfo('Waiting for %s service...' % service_name)
     rospy.wait_for_service(service_name)
@@ -468,7 +476,7 @@ a) Create a routine that mixes tasks with hourly and daily repeats.
 
 b) Add tasks that either happen in the morning or afternoon. You will need to use the `start_time` argument to `repeat_every`. 
 
-c) Once you have all of this working in simulation, move your code to your group's robot. Create a routine to patrol the nodes in your topological map. Extend this code to create metric maps at certain waypoints at regular intervals.
+c) Once you have all of this working in simulation, move your code to your group's robot. Create a routine to patrol the nodes in your topological map. Extend this code to create meta-room maps at certain waypoints at regular intervals. You can also try creating your own tasks/action servers, or scheduling the execution of existing ones (speech, PTU movement, topological edge traversal etc.).
 
 ## Additional Resources
 
