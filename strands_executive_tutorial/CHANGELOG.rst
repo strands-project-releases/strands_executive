@@ -2,6 +2,13 @@
 Changelog for package strands_executive_tutorial
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+1.0.0 (2016-05-29)
+------------------
+* Update tutorial.md
+* Minor edit.
+* Updated with includes
+* Contributors: Nick Hawes
+
 0.1.2 (2015-08-26)
 ------------------
 
