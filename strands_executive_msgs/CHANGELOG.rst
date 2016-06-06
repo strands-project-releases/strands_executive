@@ -3,6 +3,9 @@ Changelog for package strands_executive_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
+1.0.1 (2016-06-06)
+------------------
+
 1.0.0 (2016-05-29)
 ------------------
 * Added header field to schedule to allow sync of multiple topics
