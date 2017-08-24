@@ -8,10 +8,8 @@ from mongodb_store.message_store import MessageStoreProxy
 from strands_executive_msgs.msg import Task, TaskEvent
 from datetime import datetime, timedelta
 from task_executor import task_routine
-from task_executor.utils import rostime_to_python
-
-
-
+from task_executor.utils import rostime_to_python, ros_time_to_string, ros_duration_to_string
+from collections import deque
 
 
 
@@ -113,7 +111,7 @@ def task_event_string(te):
 
 def format_event(task_event):
     """ Prints a single event """
-    return 'task %s\t\t%s\t%s\t%s\t\t%s' % (task_event.task.task_id, task_event.task.action, task_event.task.start_node_id, task_event_string(task_event.event), datetime.fromtimestamp(task_event.time.to_sec()).strftime('%d/%m/%y %H:%M:%S'))
+    return 'task %s\t\t%s\t\t%s\t\t%s\t%s\t%s p:%s' % (task_event.task.task_id, task_event.task.action, task_event.task.start_node_id, task_event_string(task_event.event), datetime.fromtimestamp(task_event.time.to_sec()).strftime('%d/%m/%y %H:%M:%S'), task_event.description, task_event.task.priority)
 
 
 def print_event(task_event):
@@ -159,10 +157,79 @@ def print_group(group):
         print event.task.task_id, event.event, rostime_to_python(event.task.start_after), rostime_to_python(event.time)
     print ']'
 
+
+
 def group(results, group_length = 0):
     """ 
     Groups results of query_tasks into individual execution groups. 
     If group_length is not 0, only groups of this length are returned
+    """
+
+    if len(results) == 0:
+        return []
+
+    results.sort(key=lambda x: x[0].task.task_id)
+    results.sort(key=lambda x: x[0].time.to_sec())
+ 
+
+    groups = deque([[results[0][0]]])
+    
+
+    match_time_threshold = rospy.Duration(60 * 60 * 5)
+
+    for event, meta in results[1:]:
+
+        # adds or demands always signal new groups
+        if event.event == TaskEvent.ADDED or event.event == TaskEvent.DEMANDED:
+            print 'creating new group for event %s, %s, %s' % (event.task.task_id, task_event_string(event.event), rostime_to_python(event.time))        
+            to_add = [event]
+        else:
+            to_add = None
+            # search back through the previous groups to find one with the same id in a matching time range and a legal prior event
+            for event_group in groups:
+                # print ros_duration_to_string(event.time - event_group[-1].time)
+                if (event.time - event_group[-1].time) > match_time_threshold:
+                    print 'creating new group for event %s, %s, %s (out of time range)' % (event.task.task_id, task_event_string(event.event), rostime_to_python(event.time))
+                    to_add = [event]
+                    break
+                elif event.task.task_id == event_group[-1].task.task_id:
+                    if event_group[-1].event != TaskEvent.TASK_FINISHED and \
+                        event_group[-1].event != TaskEvent.DROPPED and \
+                        event_group[-1].event != TaskEvent.TASK_FAILED and \
+                        event_group[-1].event != TaskEvent.TASK_SUCCEEDED and \
+                        event_group[-1].event != TaskEvent.ROUTINE_STARTED and \
+                        event_group[-1].event != TaskEvent.ROUTINE_STOPPED and \
+                        event_group[-1].event != TaskEvent.CANCELLED_MANUALLY:
+                        print 'joining %s, %s, %s to %s, %s, %s' % (event.task.task_id, task_event_string(event.event), rostime_to_python(event.time), event_group[-1].task.task_id, task_event_string(event_group[-1].event), rostime_to_python(event_group[-1].time))
+                        event_group.append(event)
+                        break
+                    else:
+                        print 'creating new group for event %s, %s, %s (id matched, but incorrect state)' % (event.task.task_id, task_event_string(event.event), rostime_to_python(event.time))
+                        to_add = [event]
+                        break
+
+        if to_add is not None:
+            groups.appendleft(to_add)
+
+
+
+
+
+
+    # reverse so the first event group is first in the list
+    groups.reverse()
+
+    # for g in groups:
+    #     print_group(g)
+
+    return groups
+
+
+def group_sequential(results, group_length = 0):
+    """ 
+    Groups results of query_tasks into individual execution groups. 
+    If group_length is not 0, only groups of this length are returned.
+    This assumes tasks are not grouped for execution so can be separated by sequence.
     """
 
     if len(results) == 0:
@@ -242,11 +309,13 @@ def executions(results):
         for task_event in exec_group:
             if task_event.task.action == '':
                 task_event.task.action = 'no action'            
-                                   
-            output.append(['task %s' % task_event.task.task_id, task_event.task.action, task_event.task.start_node_id, task_event_string(task_event.event), datetime.utcfromtimestamp(task_event.time.to_sec()).strftime('%d/%m/%y %H:%M:%S')])
+            elif task_event.task.action == 'search_object':
+                task_event.task.action = 'search_object: %s' % task_event.task.arguments[3].second
+
+            output.append(['task %s' % task_event.task.task_id, task_event.task.action, task_event.task.start_node_id, task_event_string(task_event.event), datetime.utcfromtimestamp(task_event.time.to_sec()).strftime('%d/%m/%y %H:%M:%S'), task_event.description])
 
     # http://stackoverflow.com/a/9989441/135585
-    col_width = max(len(word) for row in output for word in row) + 4  # padding for row in output:
+    col_width = max(len(word) for row in output for word in row[:-1]) + 4  # padding for row in output:
     for row in output:
         if isinstance(row, list):
             print "".join(word.ljust(col_width) for word in row)
