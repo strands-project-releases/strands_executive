@@ -28,6 +28,8 @@ add_message_files(
   StringIntPair.msg
   StringTriple.msg
   MdpDomainSpec.msg
+  MdpTask.msg
+  LastTaskID.msg
 )
 
 # Generate services in the 'srv' folder
@@ -35,6 +37,7 @@ add_service_files(
   FILES
   AddTask.srv
   AddTasks.srv
+  AddCoSafeTasks.srv
   CreateTask.srv
   DemandTask.srv
   CancelTask.srv
@@ -48,6 +51,8 @@ add_service_files(
   IsTaskInterruptible.srv
   GetActiveTasks.srv
   GetGuaranteesForCoSafeTask.srv
+  GetIDs.srv
+  DemandCoSafeTask.srv
 )
 
 
