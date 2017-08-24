@@ -1,0 +1,12 @@
+Source: ros-indigo-task-executor
+Section: misc
+Priority: extra
+Maintainer: Nick Hawes <n.a.hawes@cs.bham.ac.uk>
+Build-Depends: debhelper (>= 9.0.0), ros-indigo-actionlib, ros-indigo-actionlib-msgs, ros-indigo-catkin, ros-indigo-geometry-msgs, ros-indigo-mdp-plan-exec, ros-indigo-message-generation, ros-indigo-mongodb-store, ros-indigo-mongodb-store-msgs, ros-indigo-rospy, ros-indigo-rostest, ros-indigo-strands-executive-msgs, ros-indigo-topological-navigation, ros-indigo-topological-utils
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-indigo-task-executor
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-dateutil, ros-indigo-actionlib, ros-indigo-actionlib-msgs, ros-indigo-geometry-msgs, ros-indigo-mdp-plan-exec, ros-indigo-message-runtime, ros-indigo-mongodb-store, ros-indigo-mongodb-store-msgs, ros-indigo-rospy, ros-indigo-scheduler, ros-indigo-strands-executive-msgs, ros-indigo-topological-navigation, ros-indigo-wait-action
+Description: A package for triggering and monitoring the execution of actionlib-based tasks.
