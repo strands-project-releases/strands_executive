@@ -2,7 +2,7 @@
 
 import rospy
 
-from strands_executive_msgs.msg import Task, TaskEvent
+from strands_executive_msgs.msg import Task, TaskEvent, LastTaskID
 
 import mongodb_store.util as dc_util
 import actionlib
@@ -57,9 +57,13 @@ class BaseTaskExecutor(object):
     MDP_NAV=1
 
     def __init__(self):
-        self.task_counter = 1
+        self.last_task_id = 0
         self.msg_store = MessageStoreProxy() 
         self.logging_msg_store = MessageStoreProxy(collection='task_events') 
+
+        self.check_last_task_id()
+
+
 
         self.nav_service = BaseTaskExecutor.MDP_NAV
 
@@ -258,6 +262,60 @@ class BaseTaskExecutor(object):
         return [self.active_tasks]
     get_active_tasks_ros_srv.type=GetActiveTasks
 
+
+    def get_ids_ros_srv(self, req):
+        """
+        Gets a bunch of fresh ids
+        """
+        self.service_lock.acquire()
+        rv = [[self.get_next_id() for x in range(req.count)]]
+        self.service_lock.release()
+        return rv
+    get_ids_ros_srv.type=GetIDs
+
+    def check_last_task_id(self):
+        try:
+            results = self.msg_store.query(LastTaskID._type)
+
+            self.last_task_id = -1        
+            for msg, meta in results:
+                if msg.last_task_id > self.last_task_id:
+                    self.last_task_id = msg.last_task_id
+                    self.last_task_id_store_id = meta['_id']
+
+            
+
+            if self.last_task_id < 0:
+                self.last_task_id_store_id = self.msg_store.insert(LastTaskID(last_task_id = 0))
+                rospy.loginfo('Storing task id persistently at: %s' % self.last_task_id_store_id)           
+            else:
+                rospy.loginfo('Retrieving task id from: %s' % self.last_task_id_store_id)           
+
+        except Exception as e: 
+            self.last_task_id_store_id = self.msg_store.insert(LastTaskID(last_task_id = 0))
+            rospy.loginfo('Storing task id persistently at: %s' % self.last_task_id_store_id)           
+        
+    def get_next_id(self):
+        try:
+            ltid, meta = self.msg_store.query_id(self.last_task_id_store_id, LastTaskID._type)
+            # print ltid, meta
+            # sanity check
+            if ltid.last_task_id != self.last_task_id:
+                rospy.logwarn('Persistent task id was not consistent with local version %s vs %s' % (ltid.last_task_id, self.last_task_id))
+                ltid.last_task_id = max(ltid.last_task_id, self.last_task_id)
+
+            ltid.last_task_id = ltid.last_task_id + 1
+            rv = ltid.last_task_id
+            self.last_task_id = rv
+            self.msg_store.update_id(self.last_task_id_store_id, ltid)
+
+            # rospy.loginfo('Retrieving task id from: %s' % self.last_task_id_store_id)         
+        except Exception as e:          
+            rospy.logwarn('Persistent task id could not be retrieved: %s' % e)          
+            rv = self.last_task_id
+            self.last_task_id += 1        
+        return rv
+
     def add_tasks_ros_srv(self, req):
         """
         Adds a task into the task execution framework.
@@ -266,13 +324,19 @@ class BaseTaskExecutor(object):
         now = rospy.get_rostime()
         task_ids = []
         for task in req.tasks:
-            task.task_id = self.task_counter
-            task_ids.append(task.task_id)
-            self.task_counter += 1
+
+            if task.task_id < 1:
+                task.task_id = self.get_next_id()
+
+            task_ids.append(task.task_id)            
             
             if task.max_duration.secs == 0:
                 rospy.logwarn('Task %s did not have max_duration set' % (task.action))
                 task.max_duration = rospy.Duration(5 * 60)
+
+            if task.expected_duration.secs == 0:
+                rospy.logwarn('Task %s did not have expected_duration set, using max_duration' % (task.action))
+                task.expected_duration = task.max_duration
 
             if task.start_after.secs == 0:
                 rospy.logwarn('Task %s did not have start_after set' % (task.action))                
@@ -295,18 +359,24 @@ class BaseTaskExecutor(object):
         try:            
             self.service_lock.acquire()
 
-            if not self.are_tasks_interruptible(self.active_tasks):
+            if not self.are_active_tasks_interruptible():
                 return [False, 0, self.active_task_completes_by - rospy.get_rostime()]
 
-            req.task.task_id = self.task_counter        
-            self.task_counter += 1
+            if req.task.task_id < 1:
+                req.task.task_id = self.get_next_id()
 
             # give the task some sensible defaults
             req.task.start_after = rospy.get_rostime() - rospy.Duration(10)
             req.task.end_before = rospy.get_rostime() + (req.task.max_duration * 20)
             req.task.execution_time = rospy.get_rostime()
 
+            if req.task.max_duration.secs == 0:
+                rospy.logwarn('Task %s did not have max_duration set' % (req.task.action))
+                req.task.max_duration = rospy.Duration(5 * 60)
 
+            if req.task.expected_duration.secs == 0:
+                rospy.logwarn('Task %s did not have expected_duration set, using max_duration' % (req.task.action))
+                req.task.expected_duration = req.task.max_duration
 
             # stop anything else
             if len(self.active_tasks) > 0:
@@ -335,6 +405,19 @@ class BaseTaskExecutor(object):
             if task.task_id == task_id:
                 return True
         return False
+
+    def cancel_active_task_ros_srv(self, req):   
+        
+        self.service_lock.acquire()
+        
+        self.cancel_active_task()
+     
+        self.service_lock.release()
+
+        return EmptyResponse()
+
+    cancel_active_task_ros_srv.type = Empty
+
 
     def cancel_task_ros_srv(self, req):
         """ Cancel the speficially requested task """        
@@ -380,7 +463,7 @@ class BaseTaskExecutor(object):
         
         self.service_lock.acquire()        
 
-        if self.are_tasks_interruptible(self.active_tasks):
+        if self.are_active_tasks_interruptible():
 
             self.clear_schedule()
 
@@ -412,7 +495,7 @@ class BaseTaskExecutor(object):
             previous = self.executing
             
 
-            if self.are_tasks_interruptible(self.active_tasks):
+            if self.are_active_tasks_interruptible():
                 self.pause_execution()
                 self.executing = False
                 success = True            
@@ -479,8 +562,8 @@ class BaseTaskExecutor(object):
         return map(self.instantiate_from_string_pair, argument_list)
 
 
-    def are_tasks_interruptible(self, tasks):
-        for task in tasks:
+    def are_active_tasks_interruptible(self):
+        for task in self.active_tasks:
             if not self.is_task_interruptible(task):
                 return False
 
