@@ -1,3 +1,32 @@
+## strands_executive (indigo) - 1.1.0-1
+
+The packages in the `strands_executive` repository were released into the `indigo` distro by running `/usr/bin/bloom-release --non-interactive -t indigo -r indigo strands_executive` on `Thu, 24 Aug 2017 09:14:56 -0000`
+
+These packages were released:
+- `gcal_routine`
+- `mdp_plan_exec`
+- `scheduler`
+- `scipoptsuite`
+- `sim_clock`
+- `strands_executive_msgs`
+- `task_executor`
+- `wait_action`
+
+Version of package(s) in repository `strands_executive`:
+- upstream repository: https://github.com/strands-project/strands_executive.git
+- release repository: https://github.com/strands-project-releases/strands_executive.git
+- rosdistro version: `1.0.6-0`
+- old version: `1.1.0-0`
+- new version: `1.1.0-1`
+
+Versions of tools used:
+- bloom version: `0.5.20`
+- catkin_pkg version: `0.2.10`
+- rosdep version: `0.11.2`
+- rosdistro version: `0.4.2`
+- vcstools version: `0.1.37`
+
+
 ## strands_executive (indigo) - 1.1.0-0
 
 The packages in the `strands_executive` repository were released into the `indigo` distro by running `/usr/bin/bloom-release --non-interactive -t indigo -r indigo strands_executive` on `Thu, 24 Aug 2017 09:12:20 -0000`
