@@ -2,6 +2,9 @@
 Changelog for package task_executor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+1.1.1 (2017-08-31)
+------------------
+
 1.1.0 (2017-08-24)
 ------------------
 * made routine more conservative with out of range tasks
