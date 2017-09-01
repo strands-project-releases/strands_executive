@@ -1,0 +1,268 @@
+ros-indigo-gcal-routine (1.1.2-1trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Thu, 31 Aug 2017 00:00:00 -0000
+
+ros-indigo-gcal-routine (1.1.1-1trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Thu, 31 Aug 2017 00:00:00 -0000
+
+ros-indigo-gcal-routine (1.1.0-1trusty) trusty; urgency=high
+
+  * Use requests package instead of urllib to do request
+    Fixes strands-project/g4s_deployment#165 <https://github.com/strands-project/g4s_deployment/issues/165>
+  * Gcal tools add description to yaml instead of processing separately
+  * Merge branch 'indigo-devel' of https://github.com/strands-project/strands_executive into gcal_timecritical
+    Conflicts:
+    gcal_routine/src/gcal_routine/tools.py
+  * fixed a number of bugs in the handling of timecritical for the new scheduler
+    all stemming from the "abuse" of end_before = start_after solution...
+  * Add python-requests to package xml
+  * Use requests package instead of urllib to do request
+    Fixes strands-project/g4s_deployment#165 <https://github.com/strands-project/g4s_deployment/issues/165>
+  * a first go at submitting time-critical tasks
+    this contributes to fixing https://github.com/strands-project/aaf_deployment/issues/372
+  * Fixed indentation for exception case. Removed forced time-critical change.
+  * Dealing with failures a little better, and adding more logging on task insertion
+  * Contributors: Marc Hanheide, Michal Staniaszek, Nick Hawes
+
+ -- Marc Hanheide <marc@hanheide.net>  Thu, 24 Aug 2017 00:00:00 -0000
+
+ros-indigo-gcal-routine (1.0.6-1trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Mon, 06 Jun 2016 00:00:00 -0000
+
+ros-indigo-gcal-routine (1.0.5-1trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Mon, 06 Jun 2016 00:00:00 -0000
+
+ros-indigo-gcal-routine (1.0.4-1trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Mon, 06 Jun 2016 00:00:00 -0000
+
+ros-indigo-gcal-routine (1.0.3-1trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Mon, 06 Jun 2016 00:00:00 -0000
+
+ros-indigo-gcal-routine (1.0.2-1trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Mon, 06 Jun 2016 00:00:00 -0000
+
+ros-indigo-gcal-routine (1.0.1-1trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Mon, 06 Jun 2016 00:00:00 -0000
+
+ros-indigo-gcal-routine (1.0.0-1trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Sun, 29 May 2016 00:00:00 -0000
+
+ros-indigo-gcal-routine (0.1.2-1trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Wed, 26 Aug 2015 00:00:00 -0000
+
+ros-indigo-gcal-routine (0.1.1-1trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Wed, 26 Aug 2015 00:00:00 -0000
+
+ros-indigo-gcal-routine (0.0.26-1trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Wed, 13 May 2015 00:00:00 -0000
+
+ros-indigo-gcal-routine (0.0.25-1trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Sun, 10 May 2015 00:00:00 -0000
+
+ros-indigo-gcal-routine (0.0.24-1trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Tue, 05 May 2015 00:00:00 -0000
+
+ros-indigo-gcal-routine (0.0.23-1trusty) trusty; urgency=high
+
+  * added time window in GCal API query, fixes #194 <https://github.com/strands-project/strands_executive/issues/194>
+  * Contributors: Marc Hanheide
+
+ -- Marc Hanheide <marc@hanheide.net>  Mon, 27 Apr 2015 00:00:00 -0000
+
+ros-indigo-gcal-routine (0.0.22-1trusty) trusty; urgency=high
+
+  * fixed to use UTC
+  * Contributors: Marc Hanheide (at AAF control PC)
+
+ -- Marc Hanheide <marc@hanheide.net>  Tue, 21 Apr 2015 00:00:00 -0000
+
+ros-indigo-gcal-routine (0.0.21-1trusty) trusty; urgency=high
+
+  * calling the factory method with pre-populated YAML to allows task to know these values already
+  * Contributors: Marc Hanheide (at AAF control PC)
+
+ -- Marc Hanheide <marc@hanheide.net>  Wed, 15 Apr 2015 00:00:00 -0000
+
+ros-indigo-gcal-routine (0.0.20-1trusty) trusty; urgency=high
+
+  * added documentation in README.md
+  * added priorities to gcal routine
+  * Contributors: Marc Hanheide
+
+ -- Marc Hanheide <marc@hanheide.net>  Sun, 12 Apr 2015 00:00:00 -0000
+
+ros-indigo-gcal-routine (0.0.19-1trusty) trusty; urgency=high
+
+  * now uses the top launch file to make the test work...
+  * better unit testing including scheduler
+  * gcal_routine now using factory task service
+  * Contributors: Marc Hanheide
+
+ -- Marc Hanheide <marc@hanheide.net>  Tue, 31 Mar 2015 00:00:00 -0000
+
+ros-indigo-gcal-routine (0.0.18-1trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Mon, 23 Mar 2015 00:00:00 -0000
+
+ros-indigo-gcal-routine (0.0.17-1trusty) trusty; urgency=high
+
+  * bumped version number
+  * 
+    
+      * extended README (documented all parameters)
+      * Made all parameters work
+    
+  * added README
+  * param had wrong name
+  * made this work in reality
+  * added proper use of task templates
+  * added arguments
+  * added first stub for task config from file
+  * completed package.xml and CMakeLists.txt
+  * added script and tested the runner working
+  * first fully working version
+  * 
+    
+      * added shoft_to_now for testing
+      * made scheduler call optional
+    
+  * more generic name
+  * renamed ical to gcal
+  * Contributors: Marc Hanheide
+
+ -- Marc Hanheide <marc@hanheide.net>  Mon, 23 Mar 2015 00:00:00 -0000
+
+ros-indigo-gcal-routine (0.0.16-1trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Wed, 26 Nov 2014 00:00:00 -0000
+
+ros-indigo-gcal-routine (0.0.15-1trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Sun, 23 Nov 2014 00:00:00 -0000
+
+ros-indigo-gcal-routine (0.0.14-1trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Fri, 21 Nov 2014 16:08:00 -0000
+
+ros-indigo-gcal-routine (0.0.13-1trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Fri, 21 Nov 2014 00:07:00 -0000
+
+ros-indigo-gcal-routine (0.0.12-1trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Thu, 20 Nov 2014 00:00:00 -0000
+
+ros-indigo-gcal-routine (0.0.11-1trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Tue, 18 Nov 2014 00:00:00 -0000
+
+ros-indigo-gcal-routine (0.0.10-1trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Wed, 12 Nov 2014 21:30:00 -0000
+
+ros-indigo-gcal-routine (0.0.9-1trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Wed, 12 Nov 2014 20:17:00 -0000
+
+ros-indigo-gcal-routine (0.0.8-1trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Wed, 12 Nov 2014 19:26:00 -0000
+
+ros-indigo-gcal-routine (0.0.7-1trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Fri, 07 Nov 2014 00:00:00 -0000
+
+ros-indigo-gcal-routine (0.0.6-1trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Thu, 06 Nov 2014 00:00:00 -0000
+
+ros-indigo-gcal-routine (0.0.5-1trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Sat, 01 Nov 2014 00:00:00 -0000
+
+ros-indigo-gcal-routine (0.0.4-1trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Wed, 29 Oct 2014 21:12:00 -0000
+
+ros-indigo-gcal-routine (0.0.3-1trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Wed, 29 Oct 2014 10:43:00 -0000
+
+ros-indigo-gcal-routine (0.0.1-1trusty) trusty; urgency=high
+
+
+
+ -- Marc Hanheide <marc@hanheide.net>  Fri, 24 Oct 2014 00:00:00 -0000
+
+
