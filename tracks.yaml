@@ -59,7 +59,8 @@ tracks:
     - git-bloom-generate -y rosrpm --prefix release/:{ros_distro} :{ros_distro} -i
       :{release_inc}
     devel_branch: kinetic-devel
-    last_version: 1.2.1
+    last_release: kinetic-1.2.4
+    last_version: 1.2.4
     name: strands_executive
     patches: null
     release_inc: '0'
