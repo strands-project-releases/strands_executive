@@ -1,275 +1,67 @@
-# The STRANDS Executive Framework
+# MDP Plan Exec
 
-An executive framework for a mobile robot. The basic unit of behaviour for the framework is a *task* as defined by `strands_executive_msgs/Task`. The framework triggers and manages the execution of tasks plus navigation between them. The framework includes a task scheduler to optimise the execution time of a list of times. 
+An optimal, high-level robot route planner and travel time estimator, using probabilistic model-checking techniques.
 
+## Overview
 
-## Installation
+This package provides single-robot optimal route planning capabilities, along with execution time expectations based on the method presented on:
 
-### Binary
+> B. Lacerda, D. Parker, and N. Hawes. Optimal and Dynamic Planning for Markov Decision Processes with Co-Safe LTL Specifications In *20114 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS 2014)*, Chicago, Illinois, USA, September 2014.
 
-If you are using Ubuntu, the easiest way to install the executive framework is to [add the LCAS apt releases repository](https://github.com/lcas/rosdistro/wiki). You can then run `sudo apt-get install ros-indigo-task-executor` or `ros-kinetic-task-executor`. This will install the framework and it's dependencies alongside your existing ROS install under `/opt/ros/indigo`. Note that due to java versions, the indigo version is running an older version of prism and many of the components, **we therefore recommend using kinetic if possible**. If you want to run the latest version of the framework under indigo then you need to install from source and install a Java 8 package.
+This uses MDP models of the environment and an [extension](https://github.com/bfalacerda/prism-robots) of the probabilistic model checker tool [PRISM](http://www.prismmodelchecker.org/) that allows for communication with a ROS node via sockets, to generate the cost-optimal policies.
 
-### Source
 
-To compile from source you should clone this repository into your catkin workspace and compile as normal. For dependencies you will also need (at least) the following repsositories: [strands_navigation](https://github.com/strands-project/strands_navigation) and [mongodb_store](https://github.com/strands-project/mongodb_store), and Java 8 or greater (which is the default on 16.04)/ Source installs have been tested on Ubuntu 14.04 and 16.04.
+In order to fill the costs and probabilities of the MDP models with predictions from real-world data, we use the approach presented on:
 
-## Runtime Dependencies
+> J. Fentanes, B. Lacerda, T. Krajn&iacute;k, N. Hawes, and M. Hanheide. Now or later? Predicting and Maximising Success of Navigation Actions from Long-Term Experience. In *2015 IEEE International Conference on Robotics and Automation (ICRA 2015)*, Seattle, Washington, USA, May 2015.
 
-For the executive framework to function correctly, you must have the mongodb_store nodes running. These are used by the framework to store tasks with arbitrary arguments.
 
-```bash
-roslaunch mongodb_store mongodb_store.launch
-```
-or with path specifying, where should the db is stored:
+## Usage
 
-```bash
-roslaunch mongodb_store mongodb_store.launch db_path:=/...
-```
+You can use this package ithin the [scheduled_task_executor node](https://github.com/strands-project/strands_executive/blob/hydro-release/task_executor/README.md). This allows for a  complete framework that allows scheduling and execution of tasks taking into account the time of day. If you wish to use it in a standalone fashion, you can  do ``roslaunch mdp_plan_exec mdp_plan_exec.launch topological_map:=t`` where ``t``is the name of the map saved in the [``mongo_db``](https://github.com/strands-project/mongodb_store) using the [``topological_utils``](https://github.com/strands-project/strands_navigation/tree/indigo-devel/topological_utils) package. 
 
-Currently the framework abstracts over navigation actions using [the STRANDS topological navigation framework](https://github.com/strands-project/strands_navigation/tree/hydro-devel/topological_navigation). Therefore you must have this framework running. For testing, or if you're not running the full topological navigation system, you can run a simulple simulated topological system with the following command:
+## Nodes
 
-```bash
-roslaunch topological_utils dummy_topological_navigation.launch
-```
+### `special_waypoints_manager.py`
 
-This produces a map with 9 nodes: `ChargingPoint` in the centre, with `v_-2`, `v_-1` to `v_2` running vertically and `h_-2` to `h_2` running horizontally, joining `ChargingPoint` in the middle.
+Dynamically manages special waypoints defined, for example, by an end user.
 
-## Running the executive framework
+#### Services
 
-To start the executive framework, launch the following launch file.
+`/mdp_plan_exec/add_delete_special_waypoint` ([strands_executive_msgs/AddDeleteSpecialWaypoint](https://github.com/strands-project/strands_executive/blob/hydro-release/strands_executive_msgs/srv/AddDeleteSpecialWaypoint.srv)) 
 
-```bash
-roslaunch task_executor task-scheduler-top.launch
-```
+Adds "special" waypoints. These can be "forbidden" waypoints (i.e., waypoints to avoind during task execution, e.g., for safety reasons), or "safe" waypoints, for which the robot should navigate to when told to get out of the way by an end-user. These sets of waypoints are used to automatically generate the co-safe LTL specifications for the action server provided by the  `mdp_travel_time_estimator.py` node (see below). The boolean `is_addition` defines if the service call is adding or removing a waypoint, and the `waypoint_type`constant defines if the waypoint in the service call is forbidden or safe.
 
-This launches using topolgical navigation for moving the robot. If you wish to use the MDP execution (which has additional runtime dependencies) replace `top` with `mdp` in the launch file name.
 
-## Running scheduled patrols
+`/mdp_plan_exec/get_special_waypoints` ([strands_executive_msgs/GetSpecialWaypoints](https://github.com/strands-project/strands_executive/blob/hydro-release/strands_executive_msgs/srv/GetSpecialWaypoints.srv)) 
 
-To test the executive framework you can try running the robot around the topological map.
+Returns the current lists of forbidden and safe waypoints, along with the corresponding LTL subformulas. For safe waypoints the corresponding subformula is the disjunction of all waypoints in the safe waypoint list, and for forbidden waypoints the corresponding subformula is the conjunction of negation of all waypoints in the forbidden waypoints list.
 
-Start the executive framework:
 
-```bash
-roslaunch task_executor task-scheduler.launch
-```
+### `mdp_travel_time_estimator.py`
 
-With this up and running you can start the robot running continuous patrols using:
+Provides expected times to a target waypoint, by performing value iteration on a product MDP obtained from the MDP model representing the topological map.
 
-```bash
-rorun task_executor continuous_patrolling.py
-```
+#### Services
 
-If this runs successfully, then your basic systems is up and running safely.
+`/mdp_plan_exec/get_expected_travel_times_to_waypoint` ([strands_executive_msgs/GetExpectedTravelTimesToWaypoint](https://github.com/strands-project/strands_executive/blob/hydro-release/strands_executive_msgs/srv/GetExpectedTravelTimesToWaypoint.srv)) 
 
+Given a string `target_waypoint` identifying an element of  the topological map, and a ROS timestamp, this service returns the expected times to travel from all waypoints to the target waypoint. These are enconded by vectors `string[] source_waypoints` and `float64[] travel_times`, where `travel_times[i]`represents the expected travel time from `source_waypoints[i]`to `target_waypoint`.
 
-## Tasks
+### `mdp_policy_executor.py`
 
-This executive framework, schedules and manages the execution of *tasks*. A task maps directly to the execution of an [actionlib action server](http://wiki.ros.org/actionlib), allowing you to resuse or integrate your desired robot behaviours in a widely used ROS framework.
+Generates and executes a policy for a given input task,  by performing value iteration on a product MDP obtained from the MDP model representing the topological map.
 
-Most task instances will contain both the name of a [topological map node](https://github.com/strands-project/strands_navigation/tree/hydro-devel/topological_navigation) where the task should be executed, plus the name of a [SimpleActionServer](http://wiki.ros.org/actionlib) to be called at the node and its associated arguments. Tasks must contain one of these, but not necessarily both.
+#### Actions
 
-To create a task, first create an instance of the `Task` message type. Examples are given in Python, as the helper functions currently only exist for Python, but C++ is also possible (and C++ helpers will be added if someone asks for them).
+`/mdp_plan_exec/execute_policy` ([strands_executive_msgs/ExecutePolicy](https://github.com/strands-project/strands_executive/blob/hydro-release/strands_executive_msgs/action/ExecutePolicy.action)) 
 
-```python
-from strands_executive_msgs.msg import Task
-task = Task()
-```
+Given a `task_type` and `target_id`, generates a cost optimal policy and executes the navigation actions associated to it. The specification is a co-safe LTL formula generated taking into account the `task_type`. In the following `forbidden_waypoints_ltl_string` and `safe_waypoints_ltl_string` are the strings obtained from the `get_special_waypoints`service:
 
-Then you can set the node id for where the task will be executed (or you can do this inline in the constructor):
+* `task_type = GOTO_WAYPOINT`. This generates and executes a policy for formula `F target_id` (i.e., "reach `target_id`") if there are no forbidden  waypoints, or for formula `forbidden_waypoints_ltl_string U target_id`  (i.e., reach `target_id`while avoiding the forbidden waypoints).
+* `task_type = LEAVE_FORBIDDEN_AREA`. This generates and executes a policy for formula `F forbidden_waypoints_ltl_string` (i.e., get out of the forbidden waypoints as soon as possible). It should be called when the robot ends up in forbidden areas of the environment due to some failure in execution.
+* `task_type = GOTO_CLOSEST_SAFE_WAYPOINT`. This generates and executes a policy for formula `F safe_waypoints_string` (i.e., reach a safe waypoint as soon as possible). It should be called when the robot is sent to a safe zone, for example by an end-user.
+* `task_type = COSAFE_LTL`. This generates and executes a policy for formula `target_id`. In this case, `target_id`is a general co-safe LTL formula written in the [PRISM specification language](http://www.prismmodelchecker.org/manual/PropertySpecification/SyntaxAndSemantics).
 
-```python
-task.start_node_id = 'WayPoint1'
-```
-If you don't add a start node id then the task will be executed wherever the robot is located when it starts executing the task. If your task will end at a different location than it starts you can also specify `end_node_id`. This allows the scheduler to make better estimates of travel time between tasks.
+The action server also provides the expected execution time as feedback.
 
-To add the name of the action server, do:
-```python
-task.action = 'do_dishes'
-```
-Where 'do_dishes' is replaced by the action name argument you would give to the `actionlib.SimpleActionClient` constructor. If you do not specify an action, the executive will assume the task is to simply visit the location indicated by `start_node_id`.
-
-You must also set the maximum length of time you expect your task to execute for. This is be used by the execution framework to determine whether your task is executing correctly, and by the scheduler to work out execution times. The duration is a `rospy.Duration` instance and is defined in seconds. 
-
-```python
-# wash dishes for an hour
-dishes_duration = 60 * 60
-task.max_duration = rospy.Duration(dishes_duration)
-```
-
-You can also specify the time window during which the task should be executed. 
-
-```python
-# don't start the task until 10 minutes in the future
-task.start_after = rospy.get_rostime() + rospy.Duration(10 * 60)
-# and give a window of three times the max execution time in which to execute
-task.end_before = task.start_after + rospy.Duration(task.start_after.to_sec() * 3)
-```
-
-
-If the goal of the actionlib server related to your task  needs arguments, you must then add them to the task **in the order they are used in your goal type constructor**. Arguments are added to the task using the provided helper functions from [strands_executive_msgs.task_utils](https://github.com/strands-project/strands_executive/blob/hydro-release/strands_executive_msgs/src/strands_executive_msgs/task_utils.py). For example, for the following action which is available under [task_executor/action/TestExecution.action](https://github.com/strands-project/strands_executive/blob/hydro-devel/task_executor/action/TestExecution.action), you need to supply a string argument followed by a pose, then an int then a float.
-
-```
-# something to print
-string some_goal_string
-# something to test typing
-geometry_msgs/Pose test_pose
-# something for numbers
-int32 an_int
-float32 a_float
----
----
-# feedback message
-float32 percent_complete
-```
-
- To add the string, do the following
-
-```python
-from strands_executive_msgs import task_utils
-task_utils.add_string_argument(task, 'my string argument goes here')
-```
-
-For the pose, this must be added to the `mongodb_store message` store and then the `ObjectID` of the pose is used to communicate its location. This is done as follows
-
-```python
-from mongodb_store.message_store import MessageStoreProxy
-msg_store = MessageStoreProxy()
-
-p = Pose()
-object_id = msg_store.insert(p)
-task_utils.add_object_id_argument(task, object_id, Pose)
-```
-
-Ints and floats can be added as follows
-
-```python
-task_utils.add_int_argument(task, 24)
-task_utils.add_float_argument(task, 63.678)
-```
-
-
-### Adding a Task
-
-Tasks can be added to the task executor for future execution via the `add_tasks` service. These tasks are queued or scheduled for execution, and may not be executed immediately.
-
-```python
-add_tasks_srv_name = '/task_executor/add_tasks'
-set_exe_stat_srv_name = '/task_executor/set_execution_status'
-rospy.wait_for_service(add_tasks_srv_name)
-rospy.wait_for_service(set_exe_stat_srv_name)
-add_tasks_srv = rospy.ServiceProxy(add_tasks_srv_name, strands_executive_msgs.srv.AddTask)
-set_execution_status = rospy.ServiceProxy(set_exe_stat_srv_name, strands_executive_msgs.srv.SetExecutionStatus)
-    
-try:
-	# add task to the execution framework
-    task_id = add_tasks_srv([task])
-    # make sure the executive is running -- this only needs to be done once for the whole system not for every task
-    set_execution_status(True)
-except rospy.ServiceException, e: 
-	print "Service call failed: %s"%e		
-```
-
-### Demanding a Task
-
-If you want your task to be executed immediately, pre-empting the current task execution (or navigation to that task), you can use the `demand_task` service:
-
-```python
-demand_task_srv_name = '/task_executor/demand_task'
-set_exe_stat_srv_name = '/task_executor/set_execution_status'
-rospy.wait_for_service(demand_task_srv_name)
-rospy.wait_for_service(set_exe_stat_srv_name)
-demand_task_srv = rospy.ServiceProxy(demand_task_srv_name, strands_executive_msgs.srv.DemandTask)
-set_execution_status = rospy.ServiceProxy(set_exe_stat_srv_name, strands_executive_msgs.srv.SetExecutionStatus)
-    
-try:
-    # demand task execution immedidately
-    task_id = demand_task_srv([task])
-    # make sure the executive is running -- this only needs to be done once for the whole system not for every task
-    set_execution_status(True)
-except rospy.ServiceException, e: 
-    print "Service call failed: %s"%e       
-```
-
-### Execution Information
-
-The current execution status can be obtained using the service `strands_executive_msgs/GetExecutionStatus` typically on `/task_executor/get_execution_status`. True means the execution system is running, false means that the execution system has either not been started or it has been paused (see below).
-
-To see the full schedule subscribe to the topic `/current_schedule` which gets the list of tasks in execution order. If `currently_executing` that means the first element of `execution_queue` is the currently active task. If it is false then the system is delaying until it starts executing that task.
-
-To just get the currently active task, use the service `strands_executive_msgs/GetActiveTask` on `/task_executor/get_active_task`. If the returned task has a `task_id` of `0` then there is no active task (as you can't return `None` over a service).
-
-
-### Interruptibility at Execution Time
-
-By default the execution of tasks is interruptible (via actionlib preempt). Interruptions happen if another task is demanded while a task is running, or if the task exceeds its execution duration. If you do not wish your task to be interrupted in these condition you can provide the `IsTaskInterruptible.srv` service at the name `<task name>_is_interruptible`, e.g. `do_dishes_is_interruptible` from the example above. You can change the return value at runtime as this will be checked prior to interruption. 
-
-Here's an example from the node which provides the `wait_action`.
-
-```python
-
-class WaitServer:
-    def __init__(self):         
-        self.server = actionlib.SimpleActionServer('wait_action', WaitAction, self.execute, False) 
-        self.server.start()
-        # this is not necessary in this node, but included for testing purposes
-        rospy.Service('wait_action_is_interruptible', IsTaskInterruptible, self.is_interruptible)
-
-    def is_interruptible(self, req):
-        # rospy.loginfo('Yes, interrupt me, go ahead')
-        # return True
-        rospy.loginfo('No, I will never stop')
-        return False
-
-```
-
-## Creating a Routine
-
-Our use case for task execution is that the robot has a *daily routine* which is a list of tasks which it carries out every day. Such are routine can be created with the `task_routine.DailyRoutine` object which is configured with start and end times for the robot's daily activities:
-
-```python
-	# some useful times
-    localtz = tzlocal()
-    # the time the robot will be active
-    start = time(8,30, tzinfo=localtz)
-    end = time(17,00, tzinfo=localtz)
-    midday = time(12,00, tzinfo=localtz)
-
-    morning = (start, midday)
-    afternoon = (midday, end)
-
-    routine = task_routine.DailyRoutine(start, end)
- ```
-
-Tasks are then added using the `repeat_every*` methods. These take the given task and store it such that it can be correctly instantiated with start and end times every day:
-
-```python
-	# do this task every day
-    routine.repeat_every_day(task)
-    # and every two hours during the day
-    routine.repeat_every_hour(task, hours=2)
-    # once in the morning
-    routine.repeat_every(task, *morning)
-    # and twice in the afternoon
-    routine.repeat_every(task, *afternoon, times=2)
-
-```
-
-
-The `DailyRoutine` declares the structure of the routine. The routine tasks must be passed to the `DailyRoutineRunner` to manage the creation of specific task instances and their addition to the task executor. 
-
-```python
-
-	# this uses the newer AddTasks service which excepts tasks as a batch
-	add_tasks_srv_name = '/task_executor/add_tasks'
-	add_tasks_srv = rospy.ServiceProxy(add_tasks_srv_name, AddTasks)
-
-
-	# create the object which will talk to the scheduler
-    runner = task_routine.DailyRoutineRunner(start, end, add_tasks_srv)
-    # pass the routine tasks on to the runner which handles the daily instantiation of actual tasks
-    runner.add_tasks(routine.get_routine_tasks())
-
-    # Set the task executor running (if it's not already)
-    set_execution_status(True)
-```    
