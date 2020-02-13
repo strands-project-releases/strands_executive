@@ -1,0 +1,12 @@
+Source: ros-melodic-task-executor
+Section: misc
+Priority: optional
+Maintainer: Nick Hawes <n.a.hawes@cs.bham.ac.uk>
+Build-Depends: debhelper (>= 9.0.0), ros-melodic-actionlib, ros-melodic-actionlib-msgs, ros-melodic-catkin, ros-melodic-geometry-msgs, ros-melodic-mdp-plan-exec, ros-melodic-message-generation, ros-melodic-mongodb-store, ros-melodic-mongodb-store-msgs, ros-melodic-rospy, ros-melodic-rostest, ros-melodic-strands-executive-msgs, ros-melodic-topological-navigation, ros-melodic-topological-utils
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-melodic-task-executor
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-dateutil, ros-melodic-actionlib, ros-melodic-actionlib-msgs, ros-melodic-geometry-msgs, ros-melodic-mdp-plan-exec, ros-melodic-message-runtime, ros-melodic-mongodb-store, ros-melodic-mongodb-store-msgs, ros-melodic-rospy, ros-melodic-strands-executive-msgs, ros-melodic-topological-navigation, ros-melodic-wait-action
+Description: A package for triggering and monitoring the execution of actionlib-based tasks.
