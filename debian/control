@@ -1,0 +1,12 @@
+Source: ros-melodic-mdp-plan-exec
+Section: misc
+Priority: optional
+Maintainer: Bruno Lacerda <b.lacerda@cs.bham.ac.uk>
+Build-Depends: debhelper (>= 9.0.0), ros-melodic-actionlib, ros-melodic-actionlib-msgs, ros-melodic-catkin, ros-melodic-rospy, ros-melodic-std-msgs, ros-melodic-strands-executive-msgs, ros-melodic-strands-navigation-msgs, ros-melodic-topological-navigation
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-melodic-mdp-plan-exec
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-melodic-actionlib, ros-melodic-actionlib-msgs, ros-melodic-door-pass, ros-melodic-prism-strands, ros-melodic-rospy, ros-melodic-std-msgs, ros-melodic-strands-executive-msgs, ros-melodic-strands-navigation-msgs, ros-melodic-topological-navigation
+Description: The mdp_plan_exec package
