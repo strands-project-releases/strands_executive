@@ -1,4 +1,0 @@
-# A list of domain specs to execute
-strands_executive_msgs/MdpTask[] mdp_tasks
----
-uint64[] task_ids
