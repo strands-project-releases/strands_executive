@@ -1,0 +1,12 @@
+Source: ros-melodic-strands-executive-msgs
+Section: misc
+Priority: optional
+Maintainer: Nick Hawes <n.a.hawes@cs.bham.ac.uk>
+Build-Depends: debhelper (>= 9.0.0), ros-melodic-actionlib, ros-melodic-actionlib-msgs, ros-melodic-catkin, ros-melodic-geometry-msgs, ros-melodic-message-generation, ros-melodic-mongodb-store-msgs, ros-melodic-rospy, ros-melodic-sensor-msgs, ros-melodic-std-msgs, ros-melodic-strands-navigation-msgs
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-melodic-strands-executive-msgs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-melodic-actionlib, ros-melodic-actionlib-msgs, ros-melodic-geometry-msgs, ros-melodic-message-runtime, ros-melodic-mongodb-store-msgs, ros-melodic-sensor-msgs, ros-melodic-std-msgs, ros-melodic-strands-navigation-msgs
+Description: Messages used to interact with the STRANDS executive framework.
