@@ -1,0 +1,12 @@
+Source: ros-melodic-gcal-routine
+Section: misc
+Priority: optional
+Maintainer: Marc Hanheide <marc@hanheide.net>
+Build-Depends: debhelper (>= 9.0.0), ros-melodic-catkin, ros-melodic-message-generation, ros-melodic-rospy, ros-melodic-rostest, ros-melodic-std-msgs, ros-melodic-strands-executive-msgs
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-melodic-gcal-routine
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-dateutil, python-requests, ros-melodic-mongodb-store-msgs, ros-melodic-rospy, ros-melodic-std-msgs, ros-melodic-strands-executive-msgs
+Description: The gcal_routine package
