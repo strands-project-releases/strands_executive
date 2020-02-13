@@ -1,3 +1,33 @@
+## strands_executive (melodic) - 1.2.5-1
+
+The packages in the `strands_executive` repository were released into the `melodic` distro by running `/usr/bin/bloom-release -r melodic -t melodic -n strands_executive` on `Thu, 13 Feb 2020 13:40:07 -0000`
+
+These packages were released:
+- `gcal_routine`
+- `mdp_plan_exec`
+- `prism_strands`
+- `sim_clock`
+- `strands_executive_msgs`
+- `task_executor`
+- `wait_action`
+
+Version of package(s) in repository `strands_executive`:
+
+- upstream repository: https://github.com/strands-project/strands_executive.git
+- release repository: unknown
+- rosdistro version: `null`
+- old version: `null`
+- new version: `1.2.5-1`
+
+Versions of tools used:
+
+- bloom version: `0.9.0`
+- catkin_pkg version: `0.4.14`
+- rosdep version: `0.18.0`
+- rosdistro version: `0.7.5`
+- vcstools version: `0.1.42`
+
+
 ## strands_executive (kinetic) - 1.2.4-0
 
 The packages in the `strands_executive` repository were released into the `kinetic` distro by running `/usr/bin/bloom-release -y --no-web -t kinetic -r kinetic strands_executive` on `Wed, 07 Nov 2018 09:26:14 -0000`
