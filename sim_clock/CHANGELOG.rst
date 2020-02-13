@@ -5,6 +5,11 @@ Changelog for package sim_clock
 1.2.1 (2017-09-15)
 ------------------
 
+1.2.5 (2020-02-13)
+------------------
+* Merge branch 'kinetic-devel' of https://github.com/strands-project/strands_executive into kinetic-devel
+* Contributors: Bruno Lacerda
+
 1.2.4 (2018-11-07)
 ------------------
 * merge
