@@ -1,0 +1,13 @@
+Source: ros-melodic-prism-strands
+Section: misc
+Priority: optional
+Maintainer: Bruno Lacerda <b.lacerda@cs.bham.ac.uk>
+Build-Depends: debhelper (>= 9.0.0), default-jdk, ros-melodic-catkin, ros-melodic-roscpp, rsync
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-melodic-prism-strands
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, default-jdk, ros-melodic-roscpp
+Description: The PRISM model checker adapted for use in the STRANDS system.
+ Note you require Java 8 to be set as your default runtime to use this pacakge.

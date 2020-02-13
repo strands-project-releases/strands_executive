@@ -1,0 +1,288 @@
+ros-melodic-prism-strands (1.2.5-1bionic) bionic; urgency=high
+
+  * Merge pull request #313 <https://github.com/strands-project/strands_executive/issues/313> from bfalacerda/kinetic-devel
+    prism update
+  * prism update
+  * Merge pull request #311 <https://github.com/strands-project/strands_executive/issues/311> from strands-project/ori-kinetic-devel
+    Merges in ORI developments from elsewhere
+  * Merge remote-tracking branch 'ori/kinetic-devel' into working-kinetic-devel
+    Adding in ori developments from last few months.
+  * Merge branch 'kinetic-devel' of https://github.com/strands-project/strands_executive into kinetic-devel
+  * Merge branch 'kinetic-devel' of bitbucket.org:oxfordroboticsinstitute/strands_executive into kinetic-devel
+  * updating prism version to install
+  * Merge branch 'kinetic-devel' of https://github.com/strands-project/strands_executive into kinetic-devel
+  * Contributors: Bruno Lacerda, Nick Hawes
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Thu, 13 Feb 2020 00:00:00 -0000
+
+ros-melodic-prism-strands (1.2.4-1bionic) bionic; urgency=high
+
+  * merge
+  * Contributors: Nick Hawes
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Wed, 07 Nov 2018 00:00:00 -0000
+
+ros-melodic-prism-strands (1.2.3-1bionic) bionic; urgency=high
+
+  * Added java exec check.
+  * Contributors: Nick Hawes
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Tue, 07 Aug 2018 23:00:00 -0000
+
+ros-melodic-prism-strands (1.2.2-1bionic) bionic; urgency=high
+
+  * kinetic-1.2.1
+  * updated changelogs
+  * remove bad dependency
+  * Contributors: Bruno Lacerda, Nick Hawes
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Sat, 09 Dec 2017 00:00:00 -0000
+
+ros-melodic-prism-strands (1.2.1-1bionic) bionic; urgency=high
+
+  * remove bad dependency
+  * Contributors: Bruno Lacerda
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Thu, 14 Sep 2017 23:00:00 -0000
+
+ros-melodic-prism-strands (1.2.0-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Sat, 02 Sep 2017 23:00:00 -0000
+
+ros-melodic-prism-strands (1.1.2-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Wed, 30 Aug 2017 23:00:00 -0000
+
+ros-melodic-prism-strands (1.1.1-1bionic) bionic; urgency=high
+
+  * Forcing prism compile to use java 8
+  * Added openjdk-8 dependency
+  * using prism_strands package
+  * download prism-svn
+  * added rsync dependency
+  * prism included in this now for kinetic
+  * Contributors: Bruno Lacerda, Marc Hanheide, Nick Hawes
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Wed, 30 Aug 2017 23:00:00 -0000
+
+ros-melodic-prism-strands (1.1.0-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Wed, 23 Aug 2017 23:00:00 -0000
+
+ros-melodic-prism-strands (1.0.6-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Mon, 06 Jun 2016 21:13:00 -0000
+
+ros-melodic-prism-strands (1.0.5-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Mon, 06 Jun 2016 16:40:00 -0000
+
+ros-melodic-prism-strands (1.0.4-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Mon, 06 Jun 2016 16:25:00 -0000
+
+ros-melodic-prism-strands (1.0.3-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Mon, 06 Jun 2016 12:25:00 -0000
+
+ros-melodic-prism-strands (1.0.2-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Mon, 06 Jun 2016 12:05:00 -0000
+
+ros-melodic-prism-strands (1.0.1-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Mon, 06 Jun 2016 11:04:00 -0000
+
+ros-melodic-prism-strands (1.0.0-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Sat, 28 May 2016 23:00:00 -0000
+
+ros-melodic-prism-strands (0.1.2-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Wed, 26 Aug 2015 08:51:00 -0000
+
+ros-melodic-prism-strands (0.1.1-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Wed, 26 Aug 2015 08:29:00 -0000
+
+ros-melodic-prism-strands (0.1.0-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Mon, 24 Aug 2015 23:00:00 -0000
+
+ros-melodic-prism-strands (0.0.26-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Tue, 12 May 2015 23:00:00 -0000
+
+ros-melodic-prism-strands (0.0.25-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Sat, 09 May 2015 23:00:00 -0000
+
+ros-melodic-prism-strands (0.0.24-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Mon, 04 May 2015 23:00:00 -0000
+
+ros-melodic-prism-strands (0.0.23-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Sun, 26 Apr 2015 23:00:00 -0000
+
+ros-melodic-prism-strands (0.0.22-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Mon, 20 Apr 2015 23:00:00 -0000
+
+ros-melodic-prism-strands (0.0.21-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Tue, 14 Apr 2015 23:00:00 -0000
+
+ros-melodic-prism-strands (0.0.20-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Sat, 11 Apr 2015 23:00:00 -0000
+
+ros-melodic-prism-strands (0.0.19-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Mon, 30 Mar 2015 23:00:00 -0000
+
+ros-melodic-prism-strands (0.0.18-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Mon, 23 Mar 2015 23:55:00 -0000
+
+ros-melodic-prism-strands (0.0.17-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Mon, 23 Mar 2015 13:57:00 -0000
+
+ros-melodic-prism-strands (0.0.16-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Wed, 26 Nov 2014 00:00:00 -0000
+
+ros-melodic-prism-strands (0.0.15-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Sun, 23 Nov 2014 00:00:00 -0000
+
+ros-melodic-prism-strands (0.0.14-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Fri, 21 Nov 2014 16:08:00 -0000
+
+ros-melodic-prism-strands (0.0.13-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Fri, 21 Nov 2014 00:07:00 -0000
+
+ros-melodic-prism-strands (0.0.12-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Thu, 20 Nov 2014 00:00:00 -0000
+
+ros-melodic-prism-strands (0.0.11-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Tue, 18 Nov 2014 00:00:00 -0000
+
+ros-melodic-prism-strands (0.0.10-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Wed, 12 Nov 2014 21:30:00 -0000
+
+ros-melodic-prism-strands (0.0.9-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Wed, 12 Nov 2014 20:17:00 -0000
+
+ros-melodic-prism-strands (0.0.8-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Wed, 12 Nov 2014 19:26:00 -0000
+
+ros-melodic-prism-strands (0.0.7-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Fri, 07 Nov 2014 00:00:00 -0000
+
+ros-melodic-prism-strands (0.0.6-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Thu, 06 Nov 2014 00:00:00 -0000
+
+ros-melodic-prism-strands (0.0.5-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Sat, 01 Nov 2014 00:00:00 -0000
+
+ros-melodic-prism-strands (0.0.4-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Wed, 29 Oct 2014 21:12:00 -0000
+
+ros-melodic-prism-strands (0.0.3-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Wed, 29 Oct 2014 10:43:00 -0000
+
+ros-melodic-prism-strands (0.0.1-1bionic) bionic; urgency=high
+
+
+
+ -- Bruno Lacerda <b.lacerda@cs.bham.ac.uk>  Thu, 23 Oct 2014 23:00:00 -0000
+
+
