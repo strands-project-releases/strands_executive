@@ -1,0 +1,12 @@
+Source: ros-melodic-wait-action
+Section: misc
+Priority: optional
+Maintainer: nah <n.a.hawes@cs.bham.ac.uk>
+Build-Depends: debhelper (>= 9.0.0), ros-melodic-actionlib, ros-melodic-actionlib-msgs, ros-melodic-catkin, ros-melodic-message-generation, ros-melodic-rospy, ros-melodic-std-srvs, ros-melodic-strands-executive-msgs
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-melodic-wait-action
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ros-melodic-actionlib, ros-melodic-actionlib-msgs, ros-melodic-message-runtime, ros-melodic-rospy, ros-melodic-std-srvs, ros-melodic-strands-executive-msgs
+Description: The wait_action package implements an action to wait for a configurable length of time, or until woken.
